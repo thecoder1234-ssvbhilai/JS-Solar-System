@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System</title>
+    <style>
+        .planet{position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0;}
+    </style>
+</head>
+<body style="background-color: black;">
+    <script>
+        var showOrbits = true;
+        var refreshRate = 1000 / 30; // FPS is 30
+        var planets = [
+            {name: "sun", size: 12, position: 0, velocity: 0, radian: 0 },
+            {name: "mercury", size: 2, position: 22, velocity: 1.607, radian: 0 },
+            {name: "venus", size: 3, position: 33, velocity: 1.174, radian: 0 },
+            {name: "earth", size: 4, position: 50, velocity: 1, radian: 0 },
+            {name: "mars", size: 3.5, position: 64, velocity: 0.902, radian: 0 },
+            {name: "asteroid", size: 100, position: 0, velocity: 0, radian: 0 },
+            {name: "jupiter", size: 12, position: 112, velocity: 0.434, radian: 0 },
+            {name: "saturn", size: 12, position: 138, velocity: 0.323, radian: 0 },
+            {name: "uranus", size: 5, position: 158, velocity: 0.228, radian: 0 },
+            {name: "neptune", size: 4, position: 174, velocity: 0.182, radian: 0 },
+        ];
+
+        planets.forEach( (elem, index) => {
+            if(showOrbits){
+                console.log(elem.name)
+                orbit = document.createElement('div');
+                orbit.classList.add('planet'); // Create divs in memory
+                orbit.style.height = elem.position + "vmin";
+                orbit.style.width = elem.position + "vmin";
+                orbit.style.border = "1px dashed grey";
+                orbit.style.borderRadius = "50%";
+                document.body.appendChild(orbit); // Paste it on body
+            }
+            planet = document.createElement('img');
+            planet.id = elem.name;
+            planet.classList.add('planet');
+            planet.src = "planets/" + elem.name + ".png";
+            planet.style.height = elem.size + "vmin";
+            planet.style.width = elem.size + "vmin";
+
+            planet.style.top = (Math.sin(elem.radian) * elem.position) + "vmin";
+            planet.style.left = (Math.cos(elem.radian) * elem.position) + "vmin";
+
+            document.body.appendChild(planet)
+        });
+
+        setInterval( () => {
+            planets.forEach( (elem, index) => {
+                planet = document.getElementById(elem.name);
+                planet.style.top = (Math.sin(elem.radian) * elem.position) + "vmin";
+                planet.style.left = (Math.cos(elem.radian) * elem.position) + "vmin";
+                elem.radian += elem.velocity * 0.02;
+            });
+        }, refreshRate);
+
+    </script>
+</body>
+</html>
